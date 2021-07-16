@@ -10,13 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_16_064054) do
+ActiveRecord::Schema.define(version: 2021_07_16_073817) do
+
+  create_table "games", force: :cascade do |t|
+    t.integer "player_x_id"
+    t.integer "player_o_id"
+    t.integer "status", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "active_player_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_users_on_name", unique: true
   end
 
+  add_foreign_key "games", "users", column: "active_player_id"
+  add_foreign_key "games", "users", column: "player_o_id", on_delete: :nullify
+  add_foreign_key "games", "users", column: "player_x_id", on_delete: :nullify
 end
