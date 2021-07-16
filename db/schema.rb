@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_16_073817) do
+ActiveRecord::Schema.define(version: 2021_07_16_094104) do
 
   create_table "games", force: :cascade do |t|
     t.integer "player_x_id"
@@ -19,6 +19,18 @@ ActiveRecord::Schema.define(version: 2021_07_16_073817) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "active_player_id"
+    t.integer "size", default: 3
+    t.integer "winner_id"
+  end
+
+  create_table "pieces", force: :cascade do |t|
+    t.string "symbol", null: false
+    t.integer "x", null: false
+    t.integer "y", null: false
+    t.integer "game_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id", "x", "y"], name: "index_pieces_on_game_id_and_x_and_y", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -32,4 +44,6 @@ ActiveRecord::Schema.define(version: 2021_07_16_073817) do
   add_foreign_key "games", "users", column: "active_player_id"
   add_foreign_key "games", "users", column: "player_o_id", on_delete: :nullify
   add_foreign_key "games", "users", column: "player_x_id", on_delete: :nullify
+  add_foreign_key "games", "users", column: "winner_id"
+  add_foreign_key "pieces", "games"
 end
