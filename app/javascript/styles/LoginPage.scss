@@ -1,0 +1,11 @@
+@import "colors";
+
+.LoginPage {
+  margin-top: 20vh;
+
+  &__Box {
+    box-shadow: 0 0 10px $shadow-color;
+    padding: 2rem;
+    border-radius: 0.5rem;
+  }
+}

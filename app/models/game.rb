@@ -1,13 +1,13 @@
 class GameValidator < ActiveModel::Validator
   def validate(record)
-    record.errors.add :base, 'At least 2 distinct players are needed!' if record.player_x_id == record.player_o_id
+    record.errors.add :base, '2 distinct players are needed!' if record.player_x_id == record.player_o_id && record.player_o_id
   end
 end
 
 class Game < ApplicationRecord
   enum status: %i[pending playing over]
-  belongs_to :player_x, class_name: 'User'
-  belongs_to :player_o, class_name: 'User'
+  belongs_to :player_x, class_name: 'User', optional: true
+  belongs_to :player_o, class_name: 'User', optional: true
   belongs_to :active_player, class_name: 'User', optional: true
   belongs_to :winner, class_name: 'User', optional: true
   has_many :pieces
